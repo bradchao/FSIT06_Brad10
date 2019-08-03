@@ -20,7 +20,8 @@ public class MainActivity extends ListActivity {
     private String[] from = {"title"};
     private int[] to = {R.id.item_title};
     private LinkedList<HashMap<String,String>> data;
-    private final String[] items = {"Android", "Apple", "Windows", "Linux"};
+    private String[] items = {"Android", "Apple", "Windows", "Linux"};
+    private boolean[] isSelecteds = {false,true,false,false};
     private int whichOne = 0;
 
     @Override
@@ -49,6 +50,10 @@ public class MainActivity extends ListActivity {
         item4.put(from[0], "AlertTest4");
         data.add(item4);
 
+        HashMap<String,String> item5 = new HashMap<>();
+        item5.put(from[0], "AlertTest5");
+        data.add(item5);
+
 
         adapter = new SimpleAdapter(
                 this, data, R.layout.item, from, to);
@@ -64,6 +69,7 @@ public class MainActivity extends ListActivity {
             case 1: test2(); break;
             case 2: test3(); break;
             case 3: test4(); break;
+            case 4: test5(); break;
         }
 
     }
@@ -103,10 +109,8 @@ public class MainActivity extends ListActivity {
     }
 
     private void test3(){
-        final String[] items = {"Android", "Apple", "Windows", "Linux"};
-
         new AlertDialog.Builder(this)
-                .setTitle("Title2")
+                .setTitle("Title3")
                 .setIcon(R.mipmap.ic_launcher_round)
                 .setItems(items, new DialogInterface.OnClickListener() {
                     @Override
@@ -120,7 +124,7 @@ public class MainActivity extends ListActivity {
     }
     private void test4(){
         new AlertDialog.Builder(this)
-                .setTitle("Title2")
+                .setTitle("Title4")
                 .setIcon(R.mipmap.ic_launcher_round)
                 .setSingleChoiceItems(items, whichOne, new DialogInterface.OnClickListener() {
                     @Override
@@ -132,6 +136,28 @@ public class MainActivity extends ListActivity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         showToast(whichOne);
+                    }
+                })
+                .create()
+                .show();
+
+    }
+    private void test5(){
+        new AlertDialog.Builder(this)
+                .setTitle("Title5")
+                .setIcon(R.mipmap.ic_launcher_round)
+                .setMultiChoiceItems(items, isSelecteds, new DialogInterface.OnMultiChoiceClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i, boolean b) {
+                        isSelecteds[i] = b;
+                    }
+                })
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        for (boolean b : isSelecteds){
+                            Log.v("brad", "=> " + b);
+                        }
                     }
                 })
                 .create()
